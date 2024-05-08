@@ -41,6 +41,6 @@ public class JwtSecurityConfiguration {
     }
 
     @Bean UserDetailsService userDetailsService() {
-        return userEmail -> userRepository.findByEmail(userEmail).orElseThrow(() -> new UsernameNotFoundException("User by the specified email was not found"));
+        return userEmail -> userRepository.findByEmailAddress(userEmail).orElseThrow(() -> new UsernameNotFoundException("User by the specified email was not found"));
     }
 }
