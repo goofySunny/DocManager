@@ -3,29 +3,30 @@ package ir.najaftech.najafer.JwtSecurityConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.SecurityFilterChain;
-import ir.najaftech.najafer.User.UserRepository;
-
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-public class JwtSecurityConfiguration {
+public class SecurityConfiguration {
 
-    private UserRepository userRepository;
+    private AuthenticationProvider authProvider;
+    private JwtAuthenticationFilter jwtAuthFilter;
 
     @Autowired
-    public JwtSecurityConfiguration(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public SecurityConfiguration(JwtAuthenticationFilter jwtAuthFilter, AuthenticationProvider authProvider) {
+        this.jwtAuthFilter = jwtAuthFilter;
+        this.authProvider = authProvider;
     }
 
+
     @Bean
-    SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
             auth -> {
                 auth.anyRequest().authenticated();   
@@ -34,13 +35,11 @@ public class JwtSecurityConfiguration {
             session -> {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
             });
-        http.httpBasic(Customizer.withDefaults());
+        // http.addFilter(JwtAuthenticationFilter.class);
+        http.authenticationProvider(authProvider);
+        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         http.csrf(csrf -> csrf.disable());
         http.headers(header -> header.frameOptions(Customizer.withDefaults()));
         return http.build();
-    }
-
-    @Bean UserDetailsService userDetailsService() {
-        return userEmail -> userRepository.findByEmailAddress(userEmail).orElseThrow(() -> new UsernameNotFoundException("User by the specified email was not found"));
     }
 }
