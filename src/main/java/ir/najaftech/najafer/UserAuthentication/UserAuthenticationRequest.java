@@ -2,11 +2,11 @@ package ir.najaftech.najafer.UserAuthentication;
 
 import java.time.LocalDate;
 
-public class AuthenticationRequest {
+public class UserAuthenticationRequest {
     private String userEmail;
     private String userPassword;
 
-    public AuthenticationRequest(String userEmail, String userPassword) {
+    public UserAuthenticationRequest(String userEmail, String userPassword) {
         this.userEmail = userEmail;
         this.userPassword = userPassword;
     }
