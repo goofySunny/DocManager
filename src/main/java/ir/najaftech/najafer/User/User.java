@@ -45,6 +45,15 @@ public class User implements UserDetails{
         this.password = password;
     }
 
+    private User(Builder builder) {
+        this.username = builder.username;
+        this.emailAddress = builder.emailAddress;
+        this.dob = builder.dob;
+        this.password = builder.password;
+        this.name = builder.name;
+        this.lastName = builder.lastName;
+    }
+
 
     public String getId() {
         return id;
@@ -142,4 +151,52 @@ public class User implements UserDetails{
         return true;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private String username;
+        private String name;
+        private String lastName;
+        private String emailAddress;
+        private LocalDate dob;
+        private String password;
+
+        private Builder() {}
+
+        public Builder username(String username) {
+            this.username = username;
+            return this;
+        }
+        
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+        
+        public Builder lastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public Builder emailAddress(String emailAddress) {
+            this.emailAddress = emailAddress;
+            return this;
+        }
+
+        public Builder dob(LocalDate dob) {
+            this.dob = dob;
+            return this;
+        }
+
+        public Builder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public User build() {
+            return new User(this);
+        }
+    }
 }
