@@ -3,6 +3,7 @@ package ir.najaftech.najafer.UserAuthentication;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ir.najaftech.najafer.JwtSecurityConfiguration.JwtService;
@@ -15,11 +16,13 @@ public class UserAuthenticationService {
     private AuthenticationManager authenticationManager;
     private UserRepository userRepository;
     private JwtService jwtService;
+    private PasswordEncoder passwordEncoder;
 
-    public UserAuthenticationService(AuthenticationManager authenticationManager, UserRepository userRepository, JwtService jwtService) {
+    public UserAuthenticationService(AuthenticationManager authenticationManager, UserRepository userRepository, JwtService jwtService, PasswordEncoder passwordEncoder) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.jwtService = jwtService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public UserAuthenticationResponse authenticate(UserAuthenticationRequest request) {
@@ -30,6 +33,19 @@ public class UserAuthenticationService {
         new UsernameNotFoundException("User with Email "+request.getUserEmail() + " was not found"));
         var jwtToken = jwtService.generateToken(user);
         return new UserAuthenticationResponse(jwtToken, user.getUsername());
+    }
+
+    public UserAuthenticationResponse register(UserAuthenticationRequest.RegisterationRequest request) {
+        User user = User.builder()
+                        .emailAddress(request.getUserEmail())
+                        .name(request.getName())
+                        .lastName(request.getLastName())
+                        .password(passwordEncoder.encode(request.getUserPassword()))
+                        .dob(request.getDob())
+                        .build();
+        userRepository.save(user);
+        UserAuthenticationResponse response = new UserAuthenticationResponse(jwtService.generateToken(user), user.getUsername());
+        return response;
     }
 
 }
