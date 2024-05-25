@@ -27,8 +27,9 @@ public class UserAuthenticationRequest {
         this.userPassword = userPassword;
     }
 
-    public class RegisterationRequest {
+    public static class RegisterationRequest {
         private String userEmail;
+        private String username;
         private String userPassword;
         private LocalDate dob;
         private String name;
@@ -37,12 +38,13 @@ public class UserAuthenticationRequest {
         
 
         public RegisterationRequest(String userEmail, String userPassword, LocalDate dob, String name,
-                String lastName) {
+                String lastName, String username) {
             this.userEmail = userEmail;
             this.userPassword = userPassword;
             this.dob = dob;
             this.name = name;
             this.lastName = lastName;
+            this.username = username;
         }
 
         public String getUserEmail() {
@@ -74,6 +76,14 @@ public class UserAuthenticationRequest {
         }
         public void setLastName(String lastName) {
             this.lastName = lastName;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
         }
 
         
