@@ -3,9 +3,14 @@ package ir.najaftech.najafer.User;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
+
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,8 +29,10 @@ public class User implements UserDetails{
     private String emailAddress;
     private LocalDate dob;
     private String password;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    public User(String id, String username, String name, String lastName, String emailAddress, LocalDate dob, String password) {
+    public User(String id, String username, String name, String lastName, String emailAddress, LocalDate dob, String password, Role role) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -33,16 +40,18 @@ public class User implements UserDetails{
         this.emailAddress = emailAddress;
         this.dob = dob;
         this.password = password;
+        this.role = role;
     }
 
 
-    public User(String username, String name, String lastName, String emailAddress, LocalDate dob, String password) {
+    public User(String username, String name, String lastName, String emailAddress, LocalDate dob, String password, Role role) {
         this.username = username;
         this.name = name;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
         this.dob = dob;
         this.password = password;
+        this.role = role;
     }
 
     private User(Builder builder) {
@@ -52,7 +61,10 @@ public class User implements UserDetails{
         this.password = builder.password;
         this.name = builder.name;
         this.lastName = builder.lastName;
+        this.role = builder.role;
     }
+
+    public User() {}
 
 
     public String getId() {
@@ -109,10 +121,18 @@ public class User implements UserDetails{
         this.password = password;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        throw new UnsupportedOperationException("Unimplemented method 'getAuthorities'");
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
 
@@ -162,6 +182,7 @@ public class User implements UserDetails{
         private String emailAddress;
         private LocalDate dob;
         private String password;
+        private Role role;
 
         private Builder() {}
 
@@ -192,6 +213,11 @@ public class User implements UserDetails{
 
         public Builder password(String password) {
             this.password = password;
+            return this;
+        }
+
+        public Builder role(Role role) {
+            this.role = role;
             return this;
         }
 

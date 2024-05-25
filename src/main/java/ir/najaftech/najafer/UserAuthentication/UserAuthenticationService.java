@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ir.najaftech.najafer.JwtSecurityConfiguration.JwtService;
+import ir.najaftech.najafer.User.Role;
 import ir.najaftech.najafer.User.User;
 import ir.najaftech.najafer.User.UserRepository;
 
@@ -26,11 +27,12 @@ public class UserAuthenticationService {
     }
 
     public UserAuthenticationResponse authenticate(UserAuthenticationRequest request) {
+        User user = userRepository.findByEmailAddress(request.getUserEmail()).orElseThrow(() -> 
+        new UsernameNotFoundException("User with Email "+request.getUserEmail() + " was not found"));
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(request.getUserEmail() ,request.getUserPassword())
         );
-        User user = userRepository.findByEmailAddress(request.getUserEmail()).orElseThrow(() -> 
-        new UsernameNotFoundException("User with Email "+request.getUserEmail() + " was not found"));
+
         var jwtToken = jwtService.generateToken(user);
         return new UserAuthenticationResponse(jwtToken, user.getUsername());
     }
@@ -41,11 +43,13 @@ public class UserAuthenticationService {
                         .name(request.getName())
                         .lastName(request.getLastName())
                         .password(passwordEncoder.encode(request.getUserPassword()))
+                        .username(request.getUsername())
+                        .role(Role.USER)
                         .dob(request.getDob())
                         .build();
         userRepository.save(user);
-        UserAuthenticationResponse response = new UserAuthenticationResponse(jwtService.generateToken(user), user.getUsername());
-        return response;
+        String jwtToken = jwtService.generateToken(user);
+        return new UserAuthenticationResponse(jwtToken, user.getUsername());
     }
 
 }
