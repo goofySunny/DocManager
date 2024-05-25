@@ -1,10 +1,15 @@
 package ir.najaftech.najafer.JwtSecurityConfiguration;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,16 +32,36 @@ public class ApplicationConfiguration {
 
     
 
-    @Bean 
-    public UserDetailsService userDetailsService() {
+    @Bean
+    @Qualifier("userEmailDetailsService") 
+    public UserDetailsService userEmailDetailsService() {
         return userEmail -> userRepository.findByEmailAddress(userEmail)
             .orElseThrow(() -> new UsernameNotFoundException("User by the specified email was not found"));
     }
 
     @Bean
-    public AuthenticationProvider authProvider() {
+    @Qualifier("usernameDetailsService")
+    @Primary 
+    public UserDetailsService usernameDetailsService() {
+        return username -> userRepository.findByUsername(username)
+            .orElseThrow(() -> new UsernameNotFoundException("User by the specified email was not found"));
+    }
+
+    @Bean
+    @Qualifier("usernameAuthProvider")
+    @Primary
+    public AuthenticationProvider usernameAuthProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setUserDetailsService(usernameDetailsService());
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+    
+    @Bean
+    @Qualifier("userEmailAuthProvider")
+    public AuthenticationProvider userEmailAuthProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userEmailDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
@@ -48,7 +73,7 @@ public class ApplicationConfiguration {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+        return new ProviderManager(List.of(usernameAuthProvider(), userEmailAuthProvider()));
     }
-
+    
 }

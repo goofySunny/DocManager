@@ -1,5 +1,7 @@
 package ir.najaftech.najafer.JwtSecurityConfiguration;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,11 +17,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    private AuthenticationProvider authProvider;
+    private List<AuthenticationProvider> authProvider;
     private JwtAuthenticationFilter jwtAuthFilter;
 
     @Autowired
-    public SecurityConfiguration(JwtAuthenticationFilter jwtAuthFilter, AuthenticationProvider authProvider) {
+    public SecurityConfiguration(JwtAuthenticationFilter jwtAuthFilter, List<AuthenticationProvider> authProvider) {
         this.jwtAuthFilter = jwtAuthFilter;
         this.authProvider = authProvider;
     }
@@ -37,7 +39,7 @@ public class SecurityConfiguration {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
             });
         // http.addFilter(JwtAuthenticationFilter.class);
-        http.authenticationProvider(authProvider);
+        authProvider.forEach(http::authenticationProvider);
         http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         http.headers(header -> header.frameOptions(Customizer.withDefaults()));
         return http.build();
