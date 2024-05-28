@@ -42,6 +42,10 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
+    // public String extractUserEmail(String token) {
+    //     return extractClaim(token, Claims::get)
+    // }
+
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
