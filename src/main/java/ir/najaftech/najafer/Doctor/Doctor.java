@@ -24,8 +24,6 @@ public class Doctor implements UserDetails {
     private String id;
     private String emailAddress;
     private String password;
-    private String name;
-    private String lastName;
     private String fullName;
     private String profession;
     private String officeAddress;
@@ -33,25 +31,21 @@ public class Doctor implements UserDetails {
     private Role role;
     private Integer nezamvazife;
 
-    public Doctor(String id, Integer nezamvazife, String name, String lastName, String profession, String emailAddress ,String officeAddress) {
+    public Doctor(String id, Integer nezamvazife, String profession, String emailAddress ,String officeAddress, String fullName) {
         this.id = id;
         this.nezamvazife = nezamvazife;
-        this.name = name;
-        this.lastName = lastName;
         this.profession = profession;
         this.officeAddress = officeAddress;
         this.emailAddress = emailAddress;
-        this.fullName = name + lastName;
+        this.fullName = fullName;
     }
 
-    public Doctor(Integer nezamvazife, String name, String lastName, String profession, String officeAddress, String emailAddress) {
+    public Doctor(Integer nezamvazife, String name, String lastName, String profession, String officeAddress, String emailAddress, String fullName) {
         this.nezamvazife = nezamvazife;
-        this.name = name;
-        this.lastName = lastName;
         this.profession = profession;
         this.officeAddress = officeAddress;
         this.emailAddress = emailAddress;
-        this.fullName = name + lastName;
+        this.fullName = fullName;
     }
 
     public String getId() {
@@ -68,22 +62,6 @@ public class Doctor implements UserDetails {
 
     public void setNezamvazife(Integer nezamvazife) {
         this.nezamvazife = nezamvazife;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getProfession() {
@@ -130,7 +108,7 @@ public class Doctor implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.name;
+        return this.fullName;
     }
 
     @Override
