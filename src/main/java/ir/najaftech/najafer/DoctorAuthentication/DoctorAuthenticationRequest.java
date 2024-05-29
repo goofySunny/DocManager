@@ -23,35 +23,27 @@ public class DoctorAuthenticationRequest {
     }
     
     public static class DoctorRegisterRequest {
-        private String name;
-        private String lastName;
+        private String fullName;
         private String emailAddress;
         private String password;
         private String profession;
         private int nezamvazife;
 
         
-        public DoctorRegisterRequest(String name, String lastName, String emailAddress, String password,
+        public DoctorRegisterRequest(String fullName, String emailAddress, String password,
                 String profession, int nezamvazife) {
-            this.name = name;
-            this.lastName = lastName;
+            this.fullName = fullName;
             this.emailAddress = emailAddress;
             this.password = password;
             this.profession = profession;
             this.nezamvazife = nezamvazife;
         }
 
-        public String getName() {
-            return name;
+        public String getFullName() {
+            return fullName;
         }
-        public void setName(String name) {
-            this.name = name;
-        }
-        public String getLastName() {
-            return lastName;
-        }
-        public void setLastName(String lastName) {
-            this.lastName = lastName;
+        public void setFullName(String fullName) {
+            this.fullName = fullName;
         }
         public String getEmailAddress() {
             return emailAddress;
