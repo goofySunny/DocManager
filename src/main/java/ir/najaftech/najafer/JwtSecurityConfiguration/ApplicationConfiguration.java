@@ -50,7 +50,7 @@ public class ApplicationConfiguration {
     @Qualifier("userEmailDetailsService") 
     public UserDetailsService userEmailDetailsService() {
         return userEmail -> userRepository.findByEmailAddress(userEmail)
-            .orElseThrow(() -> new UsernameNotFoundException("User by the specified email was not found"));
+            .orElseThrow(() -> new UsernameNotFoundException("User by the specified Email was not found"));
     }
 
     @Bean
@@ -58,7 +58,7 @@ public class ApplicationConfiguration {
     @Primary 
     public UserDetailsService usernameDetailsService() {
         return username -> userRepository.findByUsername(username)
-            .orElseThrow(() -> new UsernameNotFoundException("User by the specified email was not found"));
+            .orElseThrow(() -> new UsernameNotFoundException("User by the specified Username was not found"));
     }
 
     @Bean
@@ -73,7 +73,6 @@ public class ApplicationConfiguration {
 
     @Bean
     @Qualifier("doctorEmailAddressAuthProvider")
-    @Primary
     public AuthenticationProvider doctorEmailAddressAuthProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(doctorEmailDetailsService());
@@ -83,7 +82,6 @@ public class ApplicationConfiguration {
 
     @Bean
     @Qualifier("doctorFullNameAuthProvider")
-    @Primary
     public AuthenticationProvider doctorFullNameAuthProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(doctorFullNameDetailsService());
