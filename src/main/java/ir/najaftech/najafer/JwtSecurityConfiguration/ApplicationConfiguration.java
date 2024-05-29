@@ -17,20 +17,35 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import ir.najaftech.najafer.Doctor.Doctor;
+import ir.najaftech.najafer.Doctor.DoctorRepository;
 import ir.najaftech.najafer.User.UserRepository;
-
 
 @Configuration
 public class ApplicationConfiguration {
 
     private UserRepository userRepository;
+    private DoctorRepository doctorRepository;
 
     @Autowired
-    public ApplicationConfiguration(UserRepository userRepository) {
+    public ApplicationConfiguration(UserRepository userRepository, DoctorRepository doctorRepository) {
         this.userRepository = userRepository;
+        this.doctorRepository = doctorRepository;
     }
 
-    
+    @Bean
+    @Qualifier("doctorEmailDetailsService")
+    public UserDetailsService doctorEmailDetailsService() {
+        return doctorEmail -> doctorRepository.findByEmailAddress(doctorEmail)
+            .orElseThrow(() -> new UsernameNotFoundException("Doctor by the specified email was not found"));
+    }
+
+    @Bean
+    @Qualifier("doctorFullNameDetailsService")
+    public UserDetailsService doctorFullNameDetailsService() {
+        return doctorFullName -> doctorRepository.findByFullName(doctorFullName)
+            .orElseThrow(() -> new UsernameNotFoundException("Doctor by the specified Fullname not found"));
+    }
 
     @Bean
     @Qualifier("userEmailDetailsService") 
@@ -53,6 +68,26 @@ public class ApplicationConfiguration {
     public AuthenticationProvider usernameAuthProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(usernameDetailsService());
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+    @Bean
+    @Qualifier("doctorEmailAddressAuthProvider")
+    @Primary
+    public AuthenticationProvider doctorEmailAddressAuthProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(doctorEmailDetailsService());
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+    @Bean
+    @Qualifier("doctorFullNameAuthProvider")
+    @Primary
+    public AuthenticationProvider doctorFullNameAuthProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(doctorFullNameDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
