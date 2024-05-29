@@ -25,7 +25,6 @@ public class UserAuthenticationController {
         }
     }
 
-    @SuppressWarnings("null")
     @PostMapping("register")
     public ResponseEntity<UserAuthenticationResponse> register(@RequestBody UserAuthenticationRequest.RegisterationRequest credentials) {
         return ResponseEntity.ok().body(userAuthenticationService.register(credentials));
