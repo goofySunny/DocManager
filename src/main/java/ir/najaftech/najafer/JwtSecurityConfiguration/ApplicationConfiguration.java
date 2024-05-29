@@ -17,7 +17,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import ir.najaftech.najafer.Doctor.Doctor;
 import ir.najaftech.najafer.Doctor.DoctorRepository;
 import ir.najaftech.najafer.User.UserRepository;
 
@@ -108,7 +107,7 @@ public class ApplicationConfiguration {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return new ProviderManager(List.of(usernameAuthProvider(), userEmailAuthProvider()));
+        return new ProviderManager(List.of(usernameAuthProvider(), userEmailAuthProvider(), doctorEmailAddressAuthProvider(), doctorFullNameAuthProvider()));
     }
     
 }
