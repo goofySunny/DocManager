@@ -31,21 +31,27 @@ public class Doctor implements UserDetails {
     private Role role;
     private Integer nezamvazife;
 
-    public Doctor(String id, Integer nezamvazife, String profession, String emailAddress ,String officeAddress, String fullName) {
-        this.id = id;
-        this.nezamvazife = nezamvazife;
+    public Doctor(String emailAddress, String password, String fullName, String profession, String officeAddress,
+            Role role, Integer nezamvazife) {
+        this.emailAddress = emailAddress;
+        this.password = password;
+        this.fullName = fullName;
         this.profession = profession;
         this.officeAddress = officeAddress;
-        this.emailAddress = emailAddress;
-        this.fullName = fullName;
+        this.role = role;
+        this.nezamvazife = nezamvazife;
     }
 
-    public Doctor(Integer nezamvazife, String name, String lastName, String profession, String officeAddress, String emailAddress, String fullName) {
-        this.nezamvazife = nezamvazife;
+    public Doctor(String id, String emailAddress, String password, String fullName, String profession,
+            String officeAddress, Role role, Integer nezamvazife) {
+        this.id = id;
+        this.emailAddress = emailAddress;
+        this.password = password;
+        this.fullName = fullName;
         this.profession = profession;
         this.officeAddress = officeAddress;
-        this.emailAddress = emailAddress;
-        this.fullName = fullName;
+        this.role = role;
+        this.nezamvazife = nezamvazife;
     }
 
     public String getId() {
