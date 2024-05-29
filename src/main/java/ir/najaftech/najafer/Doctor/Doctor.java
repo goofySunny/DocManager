@@ -31,6 +31,9 @@ public class Doctor implements UserDetails {
     private Role role;
     private Integer nezamvazife;
 
+    public Doctor() {
+    }
+
     public Doctor(String emailAddress, String password, String fullName, String profession, String officeAddress,
             Role role, Integer nezamvazife) {
         this.emailAddress = emailAddress;
