@@ -32,7 +32,7 @@ public class SecurityConfiguration {
         http.csrf(csrf -> csrf.disable());
         http.authorizeHttpRequests(
             auth -> {
-                auth.requestMatchers("api/v1/users/auth/**", "api/v1/doctors/auth/**").permitAll().anyRequest().authenticated();   
+                auth.requestMatchers("api/v1/users/auth/**", "api/v1/doctors/auth/**").permitAll().anyRequest().permitAll(); //TEMP   
             });
         http.sessionManagement(
             session -> {

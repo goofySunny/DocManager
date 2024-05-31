@@ -1,5 +1,6 @@
 package ir.najaftech.najafer.Doctor;
 
+import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,4 +21,10 @@ public class DoctorController {
         Doctor doctor = this.doctorService.findById(id);
         return ResponseEntity.ok(doctor);
     }
+
+    @GetMapping
+    public ResponseEntity<List<Doctor>> getAllDoctors() {
+        return ResponseEntity.ok(doctorService.findAll());
+    } 
+    
 }

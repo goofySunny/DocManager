@@ -1,5 +1,7 @@
 package ir.najaftech.najafer.Doctor;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -15,5 +17,9 @@ public class DoctorService {
 
     public Doctor findById(String id) {
         return doctorRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("Doctor not found"));
+    }
+
+    public List<Doctor> findAll() {
+        return doctorRepository.findAll();
     }
 }
