@@ -105,6 +105,18 @@ public class Doctor implements UserDetails {
         return this.fullName;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return this.role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
