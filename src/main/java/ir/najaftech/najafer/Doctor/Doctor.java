@@ -35,7 +35,7 @@ public class Doctor implements UserDetails {
     private Role role;
     private Integer nezamvazife;
 
-    @JsonManagedReference
+    @JsonManagedReference("doctor")
     @OneToMany(mappedBy = "doctor")
     private List<Reservation> reservation;
 

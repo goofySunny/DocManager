@@ -3,7 +3,9 @@ package ir.najaftech.najafer.Reservation;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 import ir.najaftech.najafer.Doctor.Doctor;
 import ir.najaftech.najafer.User.User;
@@ -20,10 +22,13 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name= "reservations")
 public class Reservation {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String description;
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate date;
     private int age;
     @Enumerated(EnumType.STRING)
@@ -31,23 +36,32 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name = "doctor_id")
-    @JsonBackReference
+    @JsonBackReference("doctor")
     private Doctor doctor;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
+    @JsonBackReference("user")
     private User user;
 
     
-    public Reservation() {
-    }
-
-    public Reservation(String id, String description, LocalDate date, Doctor doctor, User user) {
+    public Reservation(String id, String description, LocalDate date, int age, Sex sex, Doctor doctor, User user) {
         this.id = id;
         this.description = description;
         this.date = date;
+        this.age = age;
+        this.sex = sex;
         this.doctor = doctor;
         this.user = user;
+    }
+
+    public Reservation() {
+    }
+
+    public Reservation(String description, LocalDate date, int age, Sex sex) {
+        this.description = description;
+        this.date = date;
+        this.age = age;
+        this.sex = sex;
     }
 
     public String getId() {
@@ -81,12 +95,6 @@ public class Reservation {
         this.user = user;
     }
 
-    @Override
-    public String toString() {
-        return "Reservation [id=" + id + ", description=" + description + ", date=" + date + ", doctor=" + doctor
-                + ", user=" + user + "]";
-    }
-
     public int getAge() {
         return age;
     }
@@ -101,5 +109,11 @@ public class Reservation {
 
     public void setSex(Sex sex) {
         this.sex = sex;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation [id=" + id + ", description=" + description + ", date=" + date + ", doctor=" + doctor
+                + ", user=" + user + "]";
     }
 }

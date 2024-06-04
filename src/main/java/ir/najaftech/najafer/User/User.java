@@ -38,7 +38,7 @@ public class User implements UserDetails{
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @JsonManagedReference
+    @JsonManagedReference("user")
     @OneToMany(mappedBy = "user")
     private List<Reservation> reservation;
 
