@@ -7,6 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import ir.najaftech.najafer.Reservation.Reservation;
 import ir.najaftech.najafer.User.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,6 +16,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -30,6 +33,9 @@ public class Doctor implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
     private Integer nezamvazife;
+
+    @OneToMany(mappedBy = "doctor")
+    private List<Reservation> reservation;
 
     public Doctor() {
     }
@@ -115,6 +121,14 @@ public class Doctor implements UserDetails {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<Reservation> getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(List<Reservation> reservation) {
+        this.reservation = reservation;
     }
 
     @JsonIgnore

@@ -8,12 +8,14 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ir.najaftech.najafer.Reservation.Reservation;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -31,6 +33,9 @@ public class User implements UserDetails{
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
+    
+    @OneToMany(mappedBy = "user")
+    private List<Reservation> reservation;
 
     public User(String id, String username, String name, String lastName, String emailAddress, LocalDate dob, String password, Role role) {
         this.id = id;
@@ -128,7 +133,15 @@ public class User implements UserDetails{
     public void setRole(Role role) {
         this.role = role;
     }
+    
+    public List<Reservation> getReservation() {
+        return reservation;
+    }
 
+
+    public void setReservation(List<Reservation> reservation) {
+        this.reservation = reservation;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
