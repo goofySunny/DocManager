@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import ir.najaftech.najafer.Doctor.Doctor;
 import ir.najaftech.najafer.User.User;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,6 +22,9 @@ public class Reservation {
     private String id;
     private String description;
     private LocalDate date;
+    private int age;
+    @Enumerated(EnumType.STRING)
+    private Sex sex;
 
     @ManyToOne
     @JoinColumn(name = "doctor_id")
@@ -75,5 +80,21 @@ public class Reservation {
     public String toString() {
         return "Reservation [id=" + id + ", description=" + description + ", date=" + date + ", doctor=" + doctor
                 + ", user=" + user + "]";
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public Sex getSex() {
+        return sex;
+    }
+
+    public void setSex(Sex sex) {
+        this.sex = sex;
     }
 }
