@@ -30,6 +30,12 @@ public class DoctorService {
         return newDoctor;
     }
 
+    public void deleteDoctor(String id) {
+        if (doctorRepository.findById(id).isPresent()) {
+            doctorRepository.deleteById(id);    
+        }
+    }
+
     public Doctor doctorMerger(Doctor doctor, Doctor updateDoctor) {
         doctor.setEmailAddress(updateDoctor.getEmailAddress() == null ? doctor.getEmailAddress() : updateDoctor.getEmailAddress());
         doctor.setFullName(updateDoctor.getFullName() == null ? doctor.getFullName() : updateDoctor.getFullName());

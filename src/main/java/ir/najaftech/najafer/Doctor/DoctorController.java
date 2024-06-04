@@ -2,6 +2,7 @@ package ir.najaftech.najafer.Doctor;
 
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,12 @@ public class DoctorController {
     public ResponseEntity<Doctor> updateDoctor(@RequestBody Doctor doctor,@RequestParam String id) {
         Doctor updatedDoctor = doctorService.updateDoctor(doctor, id);
         return ResponseEntity.ok(updatedDoctor);
+    }
+
+    @DeleteMapping("/doctor/{id}")
+    public ResponseEntity<Object> deleteDoctor(@RequestParam String id) {
+        doctorService.deleteDoctor(id);
+        return ResponseEntity.noContent().build();
     }
     
 }
