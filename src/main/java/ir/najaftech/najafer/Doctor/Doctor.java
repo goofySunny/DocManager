@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import ir.najaftech.najafer.Reservation.Reservation;
 import ir.najaftech.najafer.User.Role;
@@ -34,6 +35,7 @@ public class Doctor implements UserDetails {
     private Role role;
     private Integer nezamvazife;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "doctor")
     private List<Reservation> reservation;
 

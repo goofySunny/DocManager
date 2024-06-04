@@ -2,6 +2,9 @@ package ir.najaftech.najafer.Reservation;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import ir.najaftech.najafer.Doctor.Doctor;
 import ir.najaftech.najafer.User.User;
 import jakarta.persistence.Entity;
@@ -28,9 +31,11 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name = "doctor_id")
+    @JsonBackReference
     private Doctor doctor;
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
     

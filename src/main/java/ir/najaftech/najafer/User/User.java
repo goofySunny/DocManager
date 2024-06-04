@@ -8,6 +8,10 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import ir.najaftech.najafer.Reservation.Reservation;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -33,7 +37,8 @@ public class User implements UserDetails{
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
-    
+
+    @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Reservation> reservation;
 
@@ -143,6 +148,7 @@ public class User implements UserDetails{
         this.reservation = reservation;
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
