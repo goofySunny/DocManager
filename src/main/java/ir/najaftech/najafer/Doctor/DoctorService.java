@@ -31,15 +31,11 @@ public class DoctorService {
     }
 
     public Doctor doctorMerger(Doctor doctor, Doctor updateDoctor) {
-        Doctor mergedDoctor = new Doctor();
-        mergedDoctor.setEmailAddress(updateDoctor.getEmailAddress() == null ? doctor.getEmailAddress() : updateDoctor.getEmailAddress());
-        mergedDoctor.setFullName(updateDoctor.getFullName() == null ? doctor.getFullName() : updateDoctor.getFullName());
-        mergedDoctor.setId(doctor.getId());
-        mergedDoctor.setNezamvazife(doctor.getNezamvazife());
-        mergedDoctor.setOfficeAddress(updateDoctor.getOfficeAddress() == null ? doctor.getOfficeAddress() : updateDoctor.getOfficeAddress());
-        mergedDoctor.setPassword(doctor.getPassword());
-        mergedDoctor.setProfession(updateDoctor.getProfession() == null ? doctor.getProfession() : updateDoctor.getProfession());
-        mergedDoctor.setRole(doctor.getRole());
-        return mergedDoctor;
+        doctor.setEmailAddress(updateDoctor.getEmailAddress() == null ? doctor.getEmailAddress() : updateDoctor.getEmailAddress());
+        doctor.setFullName(updateDoctor.getFullName() == null ? doctor.getFullName() : updateDoctor.getFullName());
+        doctor.setNezamvazife(doctor.getNezamvazife());
+        doctor.setOfficeAddress(updateDoctor.getOfficeAddress() == null ? doctor.getOfficeAddress() : updateDoctor.getOfficeAddress());
+        doctor.setProfession(updateDoctor.getProfession() == null ? doctor.getProfession() : updateDoctor.getProfession());
+        return doctor;
     }
 }

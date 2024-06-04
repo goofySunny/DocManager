@@ -7,6 +7,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import ir.najaftech.najafer.User.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -117,6 +122,7 @@ public class Doctor implements UserDetails {
         this.role = role;
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
@@ -150,6 +156,13 @@ public class Doctor implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Doctor [id=" + id + ", emailAddress=" + emailAddress + ", password=" + password + ", fullName="
+                + fullName + ", profession=" + profession + ", officeAddress=" + officeAddress + ", role=" + role
+                + ", nezamvazife=" + nezamvazife + "]";
     }
 
 }
