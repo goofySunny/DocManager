@@ -34,4 +34,14 @@ public class ReservationController {
     public ResponseEntity<Reservation> retrieveReservation(@PathVariable String id) {
         return ResponseEntity.ok(reservationService.getReservation(id));
     }
+
+    @GetMapping("/doctors/{id}")
+    public ResponseEntity<Object> retrieveAllByDoctor(@PathVariable String id) {
+        return ResponseEntity.ok(reservationService.retrieveAllByDoctor(id));
+    }
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity<Object> retrieveAllByUser(@PathVariable String id) {
+        return ResponseEntity.ok(reservationService.retrieveAllByUser(id));
+    }
 }
