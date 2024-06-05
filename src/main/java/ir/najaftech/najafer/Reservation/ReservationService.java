@@ -45,4 +45,14 @@ public class ReservationService {
         return reservationRepository.findAll();
     }
 
+    public List<Reservation> retrieveAllByUser(String id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return reservationRepository.findAllByUser(user);
+    }
+
+    public List<Reservation> retrieveAllByDoctor(String id) {
+        Doctor doctor = doctorRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("Doctor not found"));
+        return reservationRepository.findAllByDoctor(doctor);
+    }
+
 }
