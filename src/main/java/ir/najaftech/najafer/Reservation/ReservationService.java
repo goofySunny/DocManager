@@ -1,5 +1,6 @@
 package ir.najaftech.najafer.Reservation;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -50,9 +51,16 @@ public class ReservationService {
         return reservationRepository.findAllByUser(user);
     }
 
-    public List<Reservation> retrieveAllByDoctor(String id) {
+    public List<ReservationDTO> retrieveAllByDoctor(String id) {
         Doctor doctor = doctorRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("Doctor not found"));
-        return reservationRepository.findAllByDoctor(doctor);
+        List<Reservation> reservations = reservationRepository.findAllByDoctor(doctor);
+        List<ReservationDTO> reservationDTOs = new ArrayList<ReservationDTO>();
+        for (Reservation reservation : reservations) {
+            ReservationDTO iterate = new ReservationDTO(reservation.getDescription(), reservation.getDate(), reservation.getAge(), reservation.getSex(),
+                    reservation.getUser().getName() + " " + reservation.getUser().getLastName(), reservation.getUser().getEmailAddress());
+            reservationDTOs.add(iterate);
+        }
+        return reservationDTOs;
     }
 
 }
