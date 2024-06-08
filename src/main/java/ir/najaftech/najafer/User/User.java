@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import ir.najaftech.najafer.Reservation.Reservation;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -29,9 +30,11 @@ public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+    @Column(unique = true)
     private String username;
     private String name;
     private String lastName;
+    @Column(unique = true)
     private String emailAddress;
     private LocalDate dob;
     private String password;
