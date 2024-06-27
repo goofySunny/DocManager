@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(path = "/api/v1/users/auth")
 public class UserAuthenticationController {
@@ -26,7 +28,7 @@ public class UserAuthenticationController {
     }
 
     @PostMapping("register")
-    public ResponseEntity<UserAuthenticationResponse> register(@RequestBody UserAuthenticationRequest.RegisterationRequest credentials) {
+    public ResponseEntity<UserAuthenticationResponse> register(@Valid @RequestBody UserAuthenticationRequest.RegisterationRequest credentials) {
         return ResponseEntity.ok().body(userAuthenticationService.register(credentials));
     }
 }
