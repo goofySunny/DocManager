@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/doctors/auth")
 public class DoctorAuthenticationController {
@@ -24,7 +26,7 @@ public class DoctorAuthenticationController {
     }
 
     @PostMapping("register")
-    public ResponseEntity<Object> register(@RequestBody DoctorAuthenticationRequest.DoctorRegisterRequest request) {
+    public ResponseEntity<Object> register(@Valid @RequestBody DoctorAuthenticationRequest.DoctorRegisterRequest request) {
         return ResponseEntity.ok(doctorAuthenticationService.register(request));
     }
 
