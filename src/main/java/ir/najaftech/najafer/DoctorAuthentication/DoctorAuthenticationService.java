@@ -45,7 +45,13 @@ public class DoctorAuthenticationService {
     }
 
     public DoctorAuthenticationResponse register(DoctorAuthenticationRequest.DoctorRegisterRequest request) {
-        Doctor doctor = new Doctor(request.getEmailAddress(), passwordEncoder.encode(request.getPassword()), request.getFullName(), request.getProfession(), null, Role.DOCTOR, request.getNezamvazife());
+        Doctor doctor = Doctor.builder()
+            .emailAddress(request.getEmailAddress())
+            .fullName(request.getFullName())
+            .nezamvazife(request.getNezamvazife())
+            .password(request.getPassword())
+            .profession(request.getProfession())
+            .build();
         doctorRepository.save(doctor);
         return login(new DoctorAuthenticationRequest(doctor.getEmailAddress(), doctor.getPassword()));
     }
