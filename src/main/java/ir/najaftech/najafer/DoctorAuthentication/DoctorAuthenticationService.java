@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import ir.najaftech.najafer.Doctor.Doctor;
 import ir.najaftech.najafer.Doctor.DoctorRepository;
 import ir.najaftech.najafer.JwtSecurityConfiguration.JwtService;
-import ir.najaftech.najafer.User.Role;
 
 @Service
 public class DoctorAuthenticationService {
@@ -49,7 +48,7 @@ public class DoctorAuthenticationService {
             .emailAddress(request.getEmailAddress())
             .fullName(request.getFullName())
             .nezamvazife(request.getNezamvazife())
-            .password(request.getPassword())
+            .password(passwordEncoder.encode(request.getPassword()))
             .profession(request.getProfession())
             .build();
         doctorRepository.save(doctor);
