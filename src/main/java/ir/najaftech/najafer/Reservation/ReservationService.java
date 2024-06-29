@@ -2,29 +2,22 @@ package ir.najaftech.najafer.Reservation;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ir.najaftech.najafer.Doctor.Doctor;
 import ir.najaftech.najafer.Doctor.DoctorRepository;
 import ir.najaftech.najafer.User.User;
 import ir.najaftech.najafer.User.UserRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class ReservationService {
 
     private DoctorRepository doctorRepository;
     private UserRepository userRepository;
     private ReservationRepository reservationRepository;
 
-    @Autowired
-    public ReservationService(DoctorRepository doctorRepository, UserRepository userRepository,
-            ReservationRepository reservationRepository) {
-        this.doctorRepository = doctorRepository;
-        this.userRepository = userRepository;
-        this.reservationRepository = reservationRepository;
-    }
-    
     public Reservation addReservation(String doctorId, String userId, Reservation reservation) {
         Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(() -> new UsernameNotFoundException("Doctor not found"));
         User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -56,8 +49,15 @@ public class ReservationService {
         List<Reservation> reservations = reservationRepository.findAllByDoctor(doctor);
         List<ReservationDTO> reservationDTOs = new ArrayList<ReservationDTO>();
         for (Reservation reservation : reservations) {
-            ReservationDTO iterate = new ReservationDTO(reservation.getDescription(), reservation.getDate(), reservation.getAge(), reservation.getSex(),
-                    reservation.getUser().getName() + " " + reservation.getUser().getLastName(), reservation.getUser().getEmailAddress());
+            // Description + Date + Age + Sex + user.getName() ++ user.getLastName() + user.getEmail
+            ReservationDTO iterate = ReservationDTO.builder()
+                                        .description(reservation.getDescription())
+                                        .date(reservation.getDate())
+                                        .age(reservation.getAge())
+                                        .sex(reservation.getSex())
+                                        .userFullName(reservation.getUser().getName() + reservation.getUser().getLastName())
+                                        .userEmail(reservation.getUser().getEmailAddress())
+                                        .build();
             reservationDTOs.add(iterate);
         }
         return reservationDTOs;

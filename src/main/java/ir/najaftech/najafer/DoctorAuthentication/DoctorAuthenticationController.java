@@ -16,17 +16,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/doctors/auth")
+@RequiredArgsConstructor
 public class DoctorAuthenticationController {
 
     private DoctorAuthenticationService doctorAuthenticationService;
 
-    @Autowired
-    public DoctorAuthenticationController(DoctorAuthenticationService doctorAuthenticationService) {
-        this.doctorAuthenticationService = doctorAuthenticationService;
-    }
 
     @PostMapping("login")
     public ResponseEntity<Object> login(@RequestBody DoctorAuthenticationRequest request) {

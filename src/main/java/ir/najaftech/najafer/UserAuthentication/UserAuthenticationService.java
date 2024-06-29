@@ -10,21 +10,16 @@ import ir.najaftech.najafer.JwtSecurityConfiguration.JwtService;
 import ir.najaftech.najafer.User.Role;
 import ir.najaftech.najafer.User.User;
 import ir.najaftech.najafer.User.UserRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UserAuthenticationService {
 
     private AuthenticationManager authenticationManager;
     private UserRepository userRepository;
     private JwtService jwtService;
     private PasswordEncoder passwordEncoder;
-
-    public UserAuthenticationService(AuthenticationManager authenticationManager, UserRepository userRepository, JwtService jwtService, PasswordEncoder passwordEncoder) {
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.jwtService = jwtService;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public UserAuthenticationResponse authenticate(UserAuthenticationRequest request) {
         User user = userRepository.findByEmailAddress(request.getUserEmail()).orElseThrow(() -> 

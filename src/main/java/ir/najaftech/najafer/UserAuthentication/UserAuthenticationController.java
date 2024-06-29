@@ -13,18 +13,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping(path = "/api/v1/users/auth")
+@RequiredArgsConstructor
 public class UserAuthenticationController {
 
     private UserAuthenticationService userAuthenticationService;
 
-    public UserAuthenticationController(UserAuthenticationService userAuthenticationService) {
-        this.userAuthenticationService = userAuthenticationService;
-    }
 
     @PostMapping("login")
     public ResponseEntity<UserAuthenticationResponse> login(@RequestBody UserAuthenticationRequest credentials) {
