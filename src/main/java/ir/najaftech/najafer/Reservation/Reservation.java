@@ -1,11 +1,9 @@
 package ir.najaftech.najafer.Reservation;
 
 import java.time.LocalDate;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-
 import ir.najaftech.najafer.Doctor.Doctor;
 import ir.najaftech.najafer.User.User;
 import jakarta.persistence.Entity;
@@ -17,9 +15,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name= "reservations")
+@Builder
 public class Reservation {
 
 
@@ -42,77 +49,4 @@ public class Reservation {
     @JsonBackReference("user")
     private User user;
 
-    
-    public Reservation(String id, String description, LocalDate date, int age, Sex sex, Doctor doctor, User user) {
-        this.id = id;
-        this.description = description;
-        this.date = date;
-        this.age = age;
-        this.sex = sex;
-        this.doctor = doctor;
-        this.user = user;
-    }
-
-    public Reservation() {
-    }
-
-    public Reservation(String description, LocalDate date, int age, Sex sex) {
-        this.description = description;
-        this.date = date;
-        this.age = age;
-        this.sex = sex;
-    }
-
-    public String getId() {
-        return id;
-    }
-    public void setId(String id) {
-        this.id = id;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public LocalDate getDate() {
-        return date;
-    }
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-    public Doctor getDoctor() {
-        return doctor;
-    }
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
-    public User getUser() {
-        return user;
-    }
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public Sex getSex() {
-        return sex;
-    }
-
-    public void setSex(Sex sex) {
-        this.sex = sex;
-    }
-
-    @Override
-    public String toString() {
-        return "Reservation [id=" + id + ", description=" + description + ", date=" + date + ", doctor=" + doctor
-                + ", user=" + user + "]";
-    }
 }
