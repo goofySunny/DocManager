@@ -2,13 +2,10 @@ package ir.najaftech.najafer.Doctor;
 
 import java.util.Collection;
 import java.util.List;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import ir.najaftech.najafer.Reservation.Reservation;
 import ir.najaftech.najafer.User.Role;
 import jakarta.persistence.Column;
@@ -20,9 +17,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table
+@Builder
 public class Doctor implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -41,101 +46,6 @@ public class Doctor implements UserDetails {
     @OneToMany(mappedBy = "doctor")
     private List<Reservation> reservation;
 
-    public Doctor() {
-    }
-
-    public Doctor(String emailAddress, String password, String fullName, String profession, String officeAddress,
-            Role role, Integer nezamvazife) {
-        this.emailAddress = emailAddress;
-        this.password = password;
-        this.fullName = fullName;
-        this.profession = profession;
-        this.officeAddress = officeAddress;
-        this.role = role;
-        this.nezamvazife = nezamvazife;
-    }
-
-    public Doctor(String id, String emailAddress, String password, String fullName, String profession,
-            String officeAddress, Role role, Integer nezamvazife) {
-        this.id = id;
-        this.emailAddress = emailAddress;
-        this.password = password;
-        this.fullName = fullName;
-        this.profession = profession;
-        this.officeAddress = officeAddress;
-        this.role = role;
-        this.nezamvazife = nezamvazife;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Integer getNezamvazife() {
-        return nezamvazife;
-    }
-
-    public void setNezamvazife(Integer nezamvazife) {
-        this.nezamvazife = nezamvazife;
-    }
-
-    public String getProfession() {
-        return profession;
-    }
-
-    public void setProfession(String profession) {
-        this.profession = profession;
-    }
-
-    public String getOfficeAddress() {
-        return officeAddress;
-    }
-
-    public void setOfficeAddress(String officeAddress) {
-        this.officeAddress = officeAddress;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getFullName() {
-        return this.fullName;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Role getRole() {
-        return this.role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public List<Reservation> getReservation() {
-        return reservation;
-    }
-
-    public void setReservation(List<Reservation> reservation) {
-        this.reservation = reservation;
-    }
-
-    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
